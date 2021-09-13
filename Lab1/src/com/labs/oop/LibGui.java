@@ -93,7 +93,7 @@ public class LibGui extends JFrame
         pCenter = new JPanel();
 
         lbllogo = new JLabel(new
-                ImageIcon("N:\\MAMA\\cuptor\\menu(10).png"), JLabel.CENTER);
+                ImageIcon("..\\menu(10).png"), JLabel.CENTER); /////////fake path here
 
         //add menuitem to scroll-down menu
         m1.add(AddNew);
