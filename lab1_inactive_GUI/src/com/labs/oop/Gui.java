@@ -5,6 +5,13 @@ import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import java.io.*;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Gui extends JFrame
 {
@@ -16,7 +23,6 @@ public class Gui extends JFrame
     private JPanel pMain,pSouth,pNorth,pCenter;
     private JTextArea tac;
     private JLabel lbllogo;
-
 
     public Gui() {
         //menu bar and menu item initialization//////////////////////////////////////////////
@@ -32,7 +38,7 @@ public class Gui extends JFrame
         Clear = new JMenuItem("Clear"); //remove a file
         Exit = new JMenuItem("Exit");
         Help = new JMenuItem("Help");
-
+        String filePath = "";
         //text area initialization
         tac = new JTextArea(2, 3);
 
@@ -53,6 +59,7 @@ public class Gui extends JFrame
         btnClear = new JButton("CLEAR");
 
         btnExit = new JButton("EXIT");
+
 
         //Linking buttons to their functionalities///////////////////////////////////////
         btnExit.addActionListener(new ActionListener() {
@@ -76,7 +83,8 @@ public class Gui extends JFrame
                     tac.read(br,null);
                     br.close();
                     tac.requestFocus();
-                    tac.setText("Selected: "+ filename);
+                    tac.setText(""+ filename);
+//                    thisfilePath = filename;
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,ex);
                 }
@@ -86,7 +94,12 @@ public class Gui extends JFrame
         btnConvert.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                Main m = new Main();
+                Convertor cn = new Convertor();
+                try {
+                    cn.convert(getTac());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
