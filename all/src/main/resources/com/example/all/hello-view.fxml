@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
+
+
+<AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.all.HelloController">
+   <children>
+      <MenuBar id="menu" fx:id="menu" layoutX="-1.0" layoutY="38.0" prefHeight="26.0" prefWidth="150.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="close" mnemonicParsing="false" onAction="#selectFile" text="Close" />
+            </items>
+          </Menu>
+          <Menu fx:id="edit" mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu fx:id="help" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <CheckTreeView id="treeView" layoutY="99.0" prefHeight="336.0" prefWidth="200.0" />
+      <Button id="searchButton" fx:id="searchTag" layoutX="150.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchTag" prefHeight="38.0" prefWidth="52.0" text="Search" />
+      <TextField id="searchBar" fx:id="typeFilterBox" layoutY="61.0" onAction="#searchOption" prefHeight="38.0" prefWidth="149.0" promptText="Find Tag" />
+      <Label layoutY="-7.0" prefHeight="38.0" prefWidth="600.0" text="Audit Tool">
+         <padding>
+            <Insets left="11.0" top="6.0" />
+         </padding>
+         <font>
+            <Font size="17.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.66793893129771">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.20355263352394104" green="0.30435964465141296" blue="0.5815789699554443" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6249492168426514" green="0.30250975489616394" blue="0.8552631735801697" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label id="outupLabel" layoutX="202.0" layoutY="72.0" prefHeight="358.0" prefWidth="392.0" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
