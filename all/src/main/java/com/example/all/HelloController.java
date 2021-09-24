@@ -10,6 +10,9 @@ import java.text.CollationElementIterator;
 public class HelloController {
 
     public void selectFile(ActionEvent actionEvent) {
+        FileChooser audFile = new FileChooser();
+        Convertor con = new Convertor();
+        con.convert(audFile.getTitle());
 
     }
 
