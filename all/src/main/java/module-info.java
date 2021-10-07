@@ -1,4 +1,4 @@
-module com.example.all {
+module com.example.newall {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -9,8 +9,7 @@ module com.example.all {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
-    requires jdk.scripting.nashorn;
 
-    opens com.example.all to javafx.fxml;
-    exports com.example.all;
+    opens com.example.newall to javafx.fxml;
+    exports com.example.newall;
 }
