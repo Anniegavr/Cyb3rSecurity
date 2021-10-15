@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane cacheShape="false" prefHeight="600.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.newall.Controller">
+   <children>
+      <ScrollPane id="descriPane" fx:id="descriPane" layoutX="136.0" layoutY="51.0" prefHeight="224.0" prefWidth="715.0">
+         <content>
+            <ListView id="listView" fx:id="listView" cache="true" editable="true" onContextMenuRequested="#loadItems" onEditStart="#loadItems" prefHeight="200.0" prefWidth="727.0" />
+         </content>
+      </ScrollPane>
+      <VBox alignment="CENTER" cacheShape="false" fillWidth="false" layoutX="3.0" layoutY="51.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="106.0" spacing="6.0" style="-fx-background-color: grey;">
+          <padding>
+              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+          </padding>
+          <Button onAction="#onSelectButtonClick" text="Select" />
+         <Button id="convert" fx:id="convert" mnemonicParsing="false" onAction="#onConvertButtonClick" text="Convert" />
+
+          <Label fx:id="status" />
+      </VBox>
+      <Text layoutX="88.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <CheckBox id="selectAll" fx:id="selectAll" layoutX="148.0" layoutY="26.0" mnemonicParsing="false" text="Select all" />
+      <ScrollPane layoutX="136.0" layoutY="293.0" prefHeight="224.0" prefWidth="715.0">
+         <content>
+            <Text id="customItems" fx:id="customItems" strokeType="OUTSIDE" strokeWidth="0.0" text="items" wrappingWidth="717.6757507324219" />
+         </content>
+      </ScrollPane>
+      <TextField id="searchText" fx:id="searchText" layoutX="231.0" layoutY="22.0" onAction="#onSearchText" onInputMethodTextChanged="#onSearchText" prefHeight="26.0" prefWidth="256.0" promptText="Search description" />
+      <Button id="searchButton" fx:id="searchButton" layoutX="494.0" layoutY="23.0" mnemonicParsing="false" text="Search" />
+   </children>
+</AnchorPane>

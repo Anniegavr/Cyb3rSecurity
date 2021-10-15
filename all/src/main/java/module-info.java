@@ -1,4 +1,4 @@
-module com.example.newall {
+module com.audits.againall {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
