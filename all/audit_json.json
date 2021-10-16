@@ -1,0 +1,8 @@
+[
+	{
+		"expect":		"\"Description:[\\\\s]+Ubuntu[\\\\s]+18.04.*$\"",
+		"description":		"\"Ubuntu is installed\"",
+		"cmd":		"\"/usr/bin/lsb_release -a\"",
+		"type":		"CMD_EXEC"
+	}
+]

@@ -1,16 +1,11 @@
 package com.example.newall;
-
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import org.controlsfx.control.SearchableComboBox;
 
 import java.io.*;
 import java.util.*;
@@ -18,13 +13,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
-    Stage stage;
-    List selected = new ArrayList();
+    ArrayList<HashMap<String, String>> finals = new ArrayList<HashMap<String, String>>();
+    private Boolean allSelected;
+    private ArrayList<String> selectedItem = new ArrayList<String>();
     @FXML
     private Label status;
 
     @FXML
-    TextField searchText;
+    private Button genFile;
+
+    @FXML
+    private Text selectedItems;
 
     @FXML
     private ScrollPane descriPane;
@@ -33,16 +32,13 @@ public class Controller {
     ArrayList descriptions = new ArrayList<>();
 
     @FXML
-    private Button searchButton;
+    private CheckBox selectAll;
 
     @FXML
-    private Button convert;
+    SearchableComboBox listView;
 
     @FXML
-    ListView listView1;
-
-    @FXML
-    ListView listView;
+    private Button removeButton;
 
     @FXML
     private Text customItems;
@@ -58,50 +54,78 @@ public class Controller {
     }
 
     @FXML
-    public String onSearchText(){
-        return (String) searchText.getCharacters();
+    protected void onSelectedButtonClick(){
+        if (selectedItem.contains(listView.getSelectionModel().getSelectedItem())==false){
+            selectedItem.add(listView.getSelectionModel().getSelectedItem().toString());
+        }
+        selectedItems.setText(String.valueOf(selectedItem));
     }
 
     @FXML
-    public void onSearchButtonClick(){
-        int idx = 0;
-        idx = indexOf(Pattern.compile(String.valueOf(searchText)), String.valueOf(descriptions.iterator()));
-        if (idx >= 0) {
-            listView.setItems((ObservableList) descriptions.get(idx));
+    public void onSelectAllButtonClick(){
+        if (selectAll.isSelected()){
+            allSelected = true;
+            selectedItems.setText(listView.getItems().toString());
+        }else if (selectAll.isSelected() == false){
+            selectedItems.setText(String.valueOf(selectedItem));
         }
     }
 
     @FXML
-    public void initialize(){
-        listView.setCellFactory(CheckBoxListCell.forListView(new Callback<String, ObservableValue<Boolean>>() {
-            @Override
-            public ObservableValue<Boolean> call(String it){
-                BooleanProperty observable = new SimpleBooleanProperty();
-                observable.addListener((obs, wasSelected, isNowSelected) -> selected.add(it));
-                return observable;
+    public void onRemoveButtonClick(){
+        if (selectedItem.contains(listView.getSelectionModel().getSelectedItem().toString())){
+            selectedItem.remove(listView.getSelectionModel().getSelectedItem().toString());
+
+        }else{
+            selectedItem.remove(selectedItem.size()-1);
+
+        }
+        selectedItems.setText(String.valueOf(selectedItem));
+    }
+
+    @FXML
+    protected void onGenFileButtonClick() throws IOException {
+//        File audit_json = new File("audit_json.json");
+        //open file
+//        String classpath = System.getProperty("java.class.path");
+        String classpath = "audit_json.json";
+        FileWriter fw = new FileWriter(classpath);
+        fw.write("[\n");
+        Integer arg_count = 0;
+        for (HashMap<String, String> m : finals){
+            for (String str : selectedItem){
+                arg_count++;
+                Integer len = m.keySet().size();
+                Integer counter = 0;
+                if (m.containsKey("description")){
+                    fw.write("\t{\n");
+                    for (String kk : m.keySet()){
+                        counter++;
+                        fw.write("\t\t\""+kk+"\":");
+                        String value = m.get(kk)
+                                .replace("\\", "\\\\")
+                                .replace("\n","\\n")
+                                .replace("\"", "\\\"");
+                        if (counter == len) {
+                            fw.write("\t\t\"" + value + "\"\n");
+                        }else{
+                            fw.write("\t\t\""+value+"\",\n");
+                        }
+                    }
+                    if (arg_count == selectedItem.size())
+                        fw.write("\t}\n");
+                    else
+                        fw.write("\t},\n");
+                }
+                fw.write("]");
+                fw.close();
+                status.setText("File generated");
             }
-        }));
-//        stage = Main.getStage();
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        listView.setVisible(true);
+        }
     }
 
     @FXML
-    public void loadItems(){
-//        its = (List) descriptions.values().toArray();
-        List<String> names;
-        names = descriptions;
-        listView.getItems().addAll(names);
-        descriPane.setContent(listView);
-    }
-
-//    public String getDescription(String it){
-//        return descriptions.get(it);
-//    }
-
-
-    @FXML
-    protected void onConvertButtonClick() throws IOException {
+    protected void onConvertButtonClick(){
         ArrayList<String> items = new ArrayList<>();
         String[] params = new String[]{"description", "info", "reference", "see_also", "collection", "fieldsSelector",
                 "query", "expect", "solution", "severity", "system", "type", "file", "regex", "cmd"};
@@ -146,10 +170,9 @@ public class Controller {
             ArrayList<Integer> indexes_begin = new ArrayList<Integer>();
             ArrayList<Integer> indexes_end = new ArrayList<Integer>();
             HashMap<String, String> data = new HashMap<String, String>();
-            System.out.println(item);
             for (String one_param: params){
                 int idx = indexOf(Pattern.compile(one_param+"[\\s]+:"), item);
-                System.out.println("=="+idx+"|"+one_param);
+//                System.out.println("=="+idx+"|"+one_param);
                 if (idx>=0) {
                     indexes_begin.add(idx);
                     indexes_end.add(idx+one_param.length());
@@ -157,10 +180,6 @@ public class Controller {
             }
             Collections.sort(indexes_begin);
             Collections.sort(indexes_end);
-//            System.out.println(indexes_begin);
-//            System.out.println(indexes_end);
-//
-//            System.out.println("finished indexes");
             for(Integer i=1; i<indexes_begin.size();i++){
                 int x =indexes_end.get(i-1);
                 int y =indexes_begin.get(i);
@@ -174,17 +193,14 @@ public class Controller {
             int data_begin = indexes_begin.get(indexes_begin.size()-1);
             int data_end = indexes_end.get(indexes_begin.size()-1);
             data.put(item.subSequence(data_begin, data_end).toString(),processed);
-//            System.out.println("--------------------------");
-
-
             result.add(data);
         }
-//        System.out.println("===================");
+        finals = result;
 
 
         //open file
-        String classpath = System.getProperty("java.class.path");
-        classpath = classpath + "\\audit_json.json";
+//        String classpath = System.getProperty("java.class.path");
+//        classpath = classpath + "\\audit_json.json";
 
         StringBuilder customItemsBuild = new StringBuilder();
 //        FileWriter fw = new FileWriter(classpath);
@@ -201,27 +217,25 @@ public class Controller {
             Integer len = a_map.keySet().size();
             Integer counter = 0;
             for(String k: a_map.keySet()){
+                if (descriptions.contains(a_map.get("description")) == false){
+                    descriptions.add(a_map.get("description"));
+                }
                 counter++;
-
-
                 customItemsBuild.append("\t\t\""+k+"\":");
 //                fw.write("\t\t\""+k+"\":");
                 String value = a_map.get(k)
                         .replace("\\", "\\\\")
                         .replace("\n","\\n")
                         .replace("\"", "\\\"");
+
+
+
                 if (counter == len) {
 //                    fw.write("\t\t\""+value+"\"\n");
                     customItemsBuild.append("\t\t\"" + value + "\"\n");
-                    if (k == "description") {
-                        descriptions.add("\t\t\"" + value + "\"\n");
-                    }
                 }else {
 //                    fw.write("\t\t\""+value+"\",\n");
                     customItemsBuild.append("\t\t\"" + value + "\",\n");
-                    if (k == "description") {
-                        descriptions.add("\t\t\"" + value + "\",\n");
-                    }
                 }
             }
 
@@ -236,9 +250,11 @@ public class Controller {
 //        fw.write("]");
 //        fw.close();
         customItems.setText(String.valueOf(customItemsBuild));
-        loadItems();
-        initialize();
-        status.setText("over");
+
+        listView.getItems().addAll(descriptions);
+
+//        descriPane.getAccessibleText();
+        status.setText("Converted");
     }
 
 
