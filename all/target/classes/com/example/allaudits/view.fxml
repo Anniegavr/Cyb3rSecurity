@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane cacheShape="false" prefHeight="631.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.newall.Controller">
+<AnchorPane cacheShape="false" prefHeight="631.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.allaudits.Controller">
    <children>
       <ScrollPane id="descriPane" fx:id="descriPane" layoutX="136.0" layoutY="51.0" prefHeight="224.0" prefWidth="715.0">
          <content>

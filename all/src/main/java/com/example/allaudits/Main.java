@@ -1,4 +1,4 @@
-package com.example.newall;
+package com.example.allaudits;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

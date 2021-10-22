@@ -10,6 +10,6 @@ module com.audits.againall {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.newall to javafx.fxml;
-    exports com.example.newall;
+    opens com.example.allaudits to javafx.fxml;
+    exports com.example.allaudits;
 }

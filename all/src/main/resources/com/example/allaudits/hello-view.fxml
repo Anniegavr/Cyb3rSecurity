@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TitledPane animated="false" prefHeight="567.0" prefWidth="755.0" text="Audi 🚗" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.allaudits.HelloController">
+  <content>
+    <AnchorPane id="itemsList" fx:id="itemsList" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="445.0">
+         <children>
+             <Button id="SelectButton" fx:id="SelectButton" layoutX="8.0" layoutY="27.0" onAction="#onSelectButtonClick" text="Import File" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="11.0" />
+            <Button id="Convert" fx:id="Convert" layoutX="11.2" layoutY="67.0" mnemonicParsing="false" onAction="#onConvertButtonClick" prefHeight="30.0" prefWidth="74.0" text="Convert" AnchorPane.leftAnchor="17.2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button id="costumizeSelection" fx:id="costumizeSelection" layoutX="8.0" layoutY="110.0" mnemonicParsing="false" onAction="#onCostumizeSelectionButtonClick" prefHeight="30.0" prefWidth="132.0" text="Costumize Selection" wrapText="true" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <ScrollPane id="ScrollPane" fx:id="ScrollPane" fitToWidth="true" layoutX="205.0" layoutY="50.6" maxHeight="-Infinity" onContextMenuRequested="#onSelectButtonClick" prefHeight="307.0" prefWidth="495.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="41.0">
+               <content>
+                  <Text id="output" fx:id="output" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="479.136754989624" />
+               </content></ScrollPane>
+            <Text id="selectedFile" fx:id="selectedFile" layoutX="18.0" layoutY="171.0" stroke="#7f2e2e" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="152.13674926757812" AnchorPane.leftAnchor="0.0" />
+         </children>
+      </AnchorPane>
+  </content>
+</TitledPane>
