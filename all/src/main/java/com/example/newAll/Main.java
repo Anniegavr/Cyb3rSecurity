@@ -1,4 +1,4 @@
-package com.example.allaudits;
+package com.example.newAll;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

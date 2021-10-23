@@ -1,4 +1,4 @@
-module com.audits.againall {
+module com.audits.againAll {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -10,6 +10,6 @@ module com.audits.againall {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.allaudits to javafx.fxml;
-    exports com.example.allaudits;
+    opens com.example.newAll to javafx.fxml;
+    exports com.example.newAll;
 }

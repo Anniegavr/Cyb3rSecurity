@@ -1,4 +1,5 @@
-package com.example.allaudits;
+package com.example.newAll;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 
 public class Controller {
     ArrayList<HashMap<String, String>> finals = new ArrayList<HashMap<String, String>>();
+    ArrayList<HashMap<String, String>> selectedAudits = new ArrayList<HashMap<String, String>>();
     private Boolean allSelected;
     private ArrayList<String> selectedItem = new ArrayList<String>();
     @FXML
@@ -54,10 +56,17 @@ public class Controller {
 
     @FXML
     protected void onSelectedButtonClick(){
-        if (selectedItem.contains(listView.getSelectionModel().getSelectedItem())==false){
+        if (!selectedItem.contains(listView.getSelectionModel().getSelectedItem().toString())){
             selectedItem.add(listView.getSelectionModel().getSelectedItem().toString());
+            selectedItems.setText(String.valueOf(selectedItem));
+            for (HashMap<String, String> mp : finals){
+                if (selectedItem.contains(mp.get("description"))){
+                    selectedAudits.add(mp);
+                }
+            }
         }
-        selectedItems.setText(String.valueOf(selectedItem));
+
+        System.out.println("Array len: "+selectedItem.size());
     }
 
     @FXML
@@ -65,7 +74,8 @@ public class Controller {
         if (selectAll.isSelected()){
             allSelected = true;
             selectedItems.setText(listView.getItems().toString());
-        }else if (selectAll.isSelected() == false){
+            selectedAudits = finals;
+        }else if (!selectAll.isSelected()){
             selectedItems.setText(String.valueOf(selectedItem));
         }
     }
@@ -91,36 +101,38 @@ public class Controller {
         FileWriter fw = new FileWriter(classpath);
         fw.write("[\n");
         Integer arg_count = 0;
-        for (HashMap<String, String> m : finals){
-            for (String str : selectedItem){
-                arg_count++;
-                Integer len = m.keySet().size();
-                Integer counter = 0;
-                if (m.containsKey("description")){
-                    fw.write("\t{\n");
-                    for (String kk : m.keySet()){
-                        counter++;
-                        fw.write("\t\t\""+kk+"\":");
-                        String value = m.get(kk)
-                                .replace("\\", "\\\\")
-                                .replace("\n","\\n")
-                                .replace("\"", "\\\"");
-                        if (counter == len) {
-                            fw.write("\t\t\"" + value + "\"\n");
-                        }else{
-                            fw.write("\t\t\""+value+"\",\n");
-                        }
-                    }
-                    if (arg_count == selectedItem.size())
-                        fw.write("\t}\n");
-                    else
-                        fw.write("\t},\n");
+        for (HashMap<String, String> selectedmp : selectedAudits){
+            arg_count++;
+            Integer len = selectedmp.keySet().size();
+            Integer counter = 0;
+//            if (selectedItem.contains(mp.get("description"))){
+//            System.out.println("M: "+mp.get("description"));
+
+            fw.write("\t{\n");
+            for (String kk : selectedmp.keySet()){
+                counter++;
+                fw.write("\t\t\""+kk+"\":");
+                String value = selectedmp.get(kk)
+                        .replace("\\", "\\\\")
+                        .replace("\n","\\n")
+                        .replace("\"", "\\\"");
+                if (counter == len) {
+                    fw.write("\t\t\"" + value + "\"\n");
+                }else{
+                    fw.write("\t\t\""+value+"\",\n");
                 }
-                fw.write("]");
-                fw.close();
-                status.setText("File generated");
             }
+            if (arg_count == selectedAudits.size())
+                fw.write("\t}\n");
+            else
+                fw.write("\t},\n");
+//            }
+
         }
+        fw.write("]");
+        fw.close();
+
+        status.setText("File generated");
     }
 
     @FXML
@@ -251,8 +263,6 @@ public class Controller {
         customItems.setText(String.valueOf(customItemsBuild));
 
         listView.getItems().addAll(descriptions);
-
-//        descriPane.getAccessibleText();
         status.setText("Converted");
     }
 
@@ -276,4 +286,6 @@ public class Controller {
     }
 
 
+    public void onPerformAuditButtonClick(ActionEvent actionEvent) {
+    }
 }
