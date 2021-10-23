@@ -286,6 +286,39 @@ public class Controller {
     }
 
 
-    public void onPerformAuditButtonClick(ActionEvent actionEvent) {
+    public void onPerformAuditButtonClick() throws IOException {
+        try
+        {
+//            String[] commands = new String[]{};
+            Runtime.getRuntime().exec("cmd start cmd.exe /K");
+            for (HashMap<String, String> selmp : selectedAudits) {
+                status.setText(selmp.get("cmd"));
+                System.out.println(selmp.get("cmd"));
+                Runtime.getRuntime().exec(" /K"+selmp.get("cmd"));
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            status.setText("Error");
+            e.printStackTrace();
+        }
+//
+//        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "start");
+////        builder.append("dd");
+//        System.out.println(builder);
+//        builder.redirectErrorStream(true);
+//        Process p = builder.start();
+//        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//        String line;
+//        while (true) {
+//            line = r.readLine();
+//            if (line == null) { break; }
+//            status.setText(line);
+//        }
+////        for (HashMap<String, String> selmp : selectedAudits){
+//
+//        }
     }
 }
