@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class Controller {
     ArrayList<HashMap<String, String>> finals = new ArrayList<HashMap<String, String>>();
     ArrayList<HashMap<String, String>> selectedAudits = new ArrayList<HashMap<String, String>>();
+    ArrayList allResponses = new ArrayList<String>();
     private Boolean allSelected;
     private ArrayList<String> selectedItem = new ArrayList<String>();
     @FXML
@@ -266,9 +267,6 @@ public class Controller {
         status.setText("Converted");
     }
 
-
-
-
     public static int indexOf (Pattern pattern, String s){
         Matcher matcher = pattern.matcher(s);
         return matcher.find() ? matcher.start() : -1;
@@ -286,15 +284,29 @@ public class Controller {
     }
 
 
-    public void onPerformAuditButtonClick() throws IOException {
+    public void onPerformAuditButtonClick(){
         try
         {
 //            String[] commands = new String[]{};
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "start");
+            builder.redirectErrorStream(true);
+            Process p = builder.start();
             Runtime.getRuntime().exec("cmd start cmd.exe /K");
             for (HashMap<String, String> selmp : selectedAudits) {
                 status.setText(selmp.get("cmd"));
                 System.out.println(selmp.get("cmd"));
-                Runtime.getRuntime().exec(" /K"+selmp.get("cmd"));
+                Runtime.getRuntime().exec(selmp.get("cmd"));
+                BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String line;
+                while (true) {
+                    line = r.readLine();
+                    if (line == null) {
+                        break;
+                    }
+                    allResponses.add(line);
+                }
+                System.out.println(allResponses);
+
 
             }
 
@@ -306,7 +318,7 @@ public class Controller {
         }
 //
 //        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "start");
-////        builder.append("dd");
+//        builder.append("dd");
 //        System.out.println(builder);
 //        builder.redirectErrorStream(true);
 //        Process p = builder.start();

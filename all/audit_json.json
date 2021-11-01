@@ -1,8 +1,13 @@
 [
 	{
-		"expect":		"\"Description:[\\\\s]+Ubuntu[\\\\s]+18.04.*$\"",
-		"description":		"\"Ubuntu is installed\"",
-		"cmd":		"\"/usr/bin/lsb_release -a\"",
-		"type":		"CMD_EXEC"
+		"reference":		"\"800-171|3.4.2,800-53|CM-6b.,CIS_Recommendation|1.1.17,CN-L3|8.1.10.6(d),CSCv7|5.1,CSF|PR.IP-1,ITSG-33|CM-6b.,LEVEL|2A,NESA|T3.2.1,SWIFT-CSCv1|2.3\"",
+		"expect":		"\"^[\\\\s]*/home[\\\\s]+.+[\\\\s]+.+\"",
+		"system":		"\"Linux\"",
+		"solution":		"\"For new installations, during installation create a custom partition setup and specify a separate partition for /home .\nFor systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.\"",
+		"description":		"\"1.1.17 Ensure separate partition exists for /home\"",
+		"cmd":		"\"/bin/findmnt /home\"",
+		"type":		"CMD_EXEC",
+		"see_also":		"\"https://workbench.cisecurity.org/files/3228\"",
+		"info":		"\"The /home directory is used to support disk storage needs of local users.\n\nRationale:\n\nIf the system is intended to support local users, create a separate partition for the /home directory to protect against resource exhaustion and restrict the type of files that can be stored under /home .\n\nImpact:\n\nResizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.\""
 	}
 ]
